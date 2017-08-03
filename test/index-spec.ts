@@ -167,10 +167,10 @@ describe('Mapping works', () => {
       baz: string;
     }
     const mapped = new TypedMapper<IFooBarBaz>(data, config).map();
-    expect(mapped.foo).to.equal(12345);
-    expect(mapped.bar).to.equal('hello world');
+    expect(mapped['foo']).to.equal(12345);
+    expect(mapped['bar']).to.equal('hello world');
     expect(Object.keys(mapped)).to.include('baz');
-    expect(mapped.baz).to.equal(undefined);
+    expect(mapped['baz']).to.equal(undefined);
   });
 });
   
