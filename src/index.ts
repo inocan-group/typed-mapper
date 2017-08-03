@@ -13,10 +13,8 @@ export interface IMapConfig {
   process?: IDictionary<MapCallback>;
   /** a hash of properties which have a default value if nothing is provided in input data structure */
   defaults?: IDictionary;
-  /** specify a list of properties to block mapping to output */
-  blacklist?: string[];
-  /** specify a list of properties to always map to output; if used then non-explicitly referenced properties will be not be moved over to output structure */
-  whitelist?: string[];
+  /** specify a list of properties to directly proxy through from input to output */
+  passThroughs?: string[];
 }
 
 export default class TypedMapper<T = any> {
@@ -40,7 +38,7 @@ export default class TypedMapper<T = any> {
     this._config = config;
   }
 
-  public map(): T | T[] {
+  public map() {
     if (!this._inputData) {
       throw new Error('The input data was not set before parsing!');
     }
@@ -49,8 +47,8 @@ export default class TypedMapper<T = any> {
     }
 
     return Array.isArray(this._inputData)
-      ? this._inputData.map((item: T) => this.convert(item))
-      : this.convert(this._inputData);
+      ? this._inputData.map((item: T) => this.convert(item)) as T[]
+      : this.convert(this._inputData) as T;
   }
 
   private convert(data: IDictionary): T {
@@ -87,6 +85,13 @@ export default class TypedMapper<T = any> {
     keys.forEach((key: keyof T) => {
       const defaultValue = this._config.defaults ? this._config.defaults[key] : undefined;
       output[key] = this._config.process[key](props, defaultValue);
+    });
+
+    // Passthrough
+    const passThrough = this._config.passThroughs || [];
+    passThrough.forEach((key: keyof T) => {
+      const defaultValue = this._config.defaults ? this._config.defaults[key] : undefined;
+      output[key] = data[key] || defaultValue;
     });
 
     return output as T;

@@ -150,5 +150,27 @@ describe('Mapping works', () => {
     expect(mapped.foo).to.equal('hello worlds');
     expect(mapped.bar).to.equal('hello baz');
   });
+
+  it('passthrough\'s work with and without defaults', () => {
+    const config = {
+      passThroughs: ['foo', 'bar', 'baz'],
+      defaults: {
+        foo: 12345
+      }
+    };
+    const data = {
+      bar: 'hello world'
+    };
+    interface IFooBarBaz {
+      foo: number;
+      bar: string; 
+      baz: string;
+    }
+    const mapped = new TypedMapper<IFooBarBaz>(data, config).map();
+    expect(mapped.foo).to.equal(12345);
+    expect(mapped.bar).to.equal('hello world');
+    expect(Object.keys(mapped)).to.include('baz');
+    expect(mapped.baz).to.equal(undefined);
+  });
 });
   
