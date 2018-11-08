@@ -1,6 +1,6 @@
 {
   "name": "typed-mapper",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Mapping engine which converts from one data structure to another while working with Typescripts generics to allow for strong typing",
   "license": "MIT",
   "repository": "https://github.com/lifegadget/typed-mapper",
@@ -19,6 +19,7 @@
     "clean": "rimraf lib",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "build": "ts-node ./scripts/build.ts",
+    "deploy": "ts-node ./scripts/build.ts && yarn publish",
     "test": "ts-node ./scripts/test.ts ",
     "coverage": "nyc --reporter=text --reporter=html mocha --compilers ts:ts-node/register",
     "watch": "ts-node ./scripts/watch.ts",
@@ -27,7 +28,7 @@
     "cli": "ts-node cli/index.ts --"
   },
   "dependencies": {
-    "common-types": "^1.1.0"
+    "common-types": "^1.8.16"
   },
   "devDependencies": {
     "@types/chai": "^4.1.6",

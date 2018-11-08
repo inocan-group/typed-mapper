@@ -377,9 +377,9 @@ commander@~2.17.1:
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
 
-common-types@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.1.0.tgz#e8cee9ce13f0a52e0ff4ec080ee2dd27b457872c"
+common-types@^1.8.16:
+  version "1.8.16"
+  resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.8.16.tgz#92b981bc56efb286ac91d68c77249d6e741ed90b"
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -1460,7 +1460,7 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
-ts-node@^5.11.0:
+ts-node@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-7.0.1.tgz#9562dc2d1e6d248d24bc55f773e3f614337d9baf"
   dependencies:

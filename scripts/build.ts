@@ -1,9 +1,7 @@
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import { exec } from 'shelljs';
-import * as rm from 'rimraf';
-import * as process from 'process';
 import '../test/testing/test-console';
-import { stdout, stderr } from 'test-console';
+import { stdout } from 'test-console';
 
 function prepOutput(output: string) {
   return output.replace(/\t\r\n/, '').replace('undefined', '').trim();

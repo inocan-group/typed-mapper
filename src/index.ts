@@ -1,125 +1,184 @@
-import { IDictionary } from 'common-types';
+import { Omit } from "common-types";
+export type IFunctionalMapping<I, O> = (input?: I, set?: I[]) => O;
+export type IStaticMapping<I> = keyof I;
+export type IMapperConfiguration<I, O> = {
+  [K in keyof O]: (keyof I & O[K]) | IFunctionalMapping<I, O[K]>
+};
 
-export type MapCallback = (props: IDictionary, defaultValue: any) => any;
+export type IPassthroughConfig<I, O> = Array<keyof O> | true | false;
+export type IExcludeConfig<I, O> = Array<keyof O> | false;
 
-export interface IMapConfig {
-  /** an array of properties which need to be camelized for output data structure */
-  camelize?: string[];
-  /** an array of properties which need to be dasherized for output data structure */
-  dasherize?: string[];
-  /** an array of properties which need to be pascalized for output data structure */
-  pascalize?: string[];
-  /** a hash of properties which use a callback to shape the output */
-  process?: IDictionary<MapCallback>;
-  /** a hash of properties which have a default value if nothing is provided in input data structure */
-  defaults?: IDictionary;
-  /** specify a list of properties to directly proxy through from input to output */
-  passThroughs?: string[];
-}
+export default class TypedMapper<I = any, O = any> {
+  private _map: IMapperConfiguration<I, O>;
+  private _aggregate: IMapperConfiguration<I, O>;
+  private _data: I | I[];
+  private _passthrough: IPassthroughConfig<I, O> = false;
+  private _exclude: IPassthroughConfig<I, O> = false;
 
-export default class TypedMapper<T = any> {
-  private _inputData: IDictionary | IDictionary[];
-  private _config: IMapConfig;
-
-  constructor(inputData?: IDictionary, mappingConfig?: IMapConfig) {
-    if (inputData) {
-      this.inputData(inputData);
-    }
-    if (mappingConfig) {
-      this.mappingConfig(mappingConfig);
-    }
+  public static map<I = any, O = any>(config: IMapperConfiguration<I, O>) {
+    const obj = new TypedMapper<I, O>();
+    obj.map(config);
+    return obj;
   }
 
-  public inputData(data: IDictionary) {
-    this._inputData = data;
+  public static passthrough<I = any, O = any>(config: IPassthroughConfig<I, O>) {
+    const obj = new TypedMapper<I, O>();
+    obj.passthrough(config);
+    return obj;
   }
 
-  public mappingConfig(config: IMapConfig) {
-    this._config = config;
+  public static exclude<I = any, O = any>(config: IExcludeConfig<I, O>) {
+    const obj = new TypedMapper<I, O>();
+    obj.exclude(config);
+    return obj;
   }
 
-  public map() {
-    if (!this._inputData) {
-      throw new Error('The input data was not set before parsing!');
+  public static aggregate<I = any, O = any>(config: IMapperConfiguration<I, O>) {
+    const obj = new TypedMapper<I, O>();
+    obj.aggregate(config);
+    return obj;
+  }
+
+  public get mapConfig() {
+    return this._map;
+  }
+
+  public map(config: IMapperConfiguration<I, O>) {
+    this._map = config;
+    return this;
+  }
+
+  public passthrough(config: IPassthroughConfig<I, O>) {
+    if (this._exclude) {
+      const e = new Error(
+        `You can't set both passthroughs and exclusions and exclusions are already set!`
+      );
+      e.name = "TypedMapper::NotAllowed";
+      throw e;
     }
-    if (!this._config) {
-      throw new Error('The mapping configuration was not set before parsing!');
-    }
-
-    return Array.isArray(this._inputData)
-      ? this._inputData.map((item: T) => this.convert(item)) as T[]
-      : this.convert(this._inputData) as T;
+    this._passthrough = config;
+    return this;
   }
 
-  private convert(data: IDictionary): T {
-    const output: Partial<T> | T = {};
-    Object.keys(data).map(key => {
-      // PascalCase
-      if (
-        this._config.pascalize &&
-        this._config.pascalize.indexOf(key) !== -1
-      ) {
-        output[this.pascalize(key) as keyof T] = data[key];
+  public exclude(config: IExcludeConfig<I, O>) {
+    if (this._passthrough) {
+      const e = new Error(
+        `You can't set both passthroughs and exclusions and passthroughs are already set!`
+      );
+      e.name = "TypedMapper::NotAllowed";
+      throw e;
+    }
+    this._exclude = config;
+    return this;
+  }
+
+  public input(data: I | I[]) {
+    this._data = data;
+    return this;
+  }
+
+  public get inputData() {
+    return this._data;
+  }
+
+  /**
+   * Converts the input data, using the mapping configuration,
+   * into the output format.
+   */
+  public convert(data?: I | I[]) {
+    if (data) {
+      this.input(data);
+    }
+
+    if (!this._data) {
+      const e = new Error("You must first set the data before trying to convert!");
+      e.name = "TypedMapper::NotReady";
+      throw e;
+    }
+
+    return Array.isArray(this._data)
+      ? this._convertArray(this._data)
+      : this._convertObject(this._data);
+  }
+
+  public convertArray(data?: I[]) {
+    if (!data && !Array.isArray(this._data)) {
+      const e = new Error(
+        `Using convertArray() requires that the input is also an array and it is of type ${typeof this
+          ._data}`
+      );
+      e.name = "TypedMapper::InvalidFormat";
+      throw e;
+    }
+    return this.convert(data) as O[];
+  }
+
+  public convertObject(data?: I) {
+    if (!data && Array.isArray(this._data)) {
+      const e = new Error(
+        `Using convertObject() requires that the input is an object and it is of type ${typeof this
+          ._data}`
+      );
+      e.name = "TypedMapper::InvalidFormat";
+      throw e;
+    }
+    return this.convert(data) as O;
+  }
+
+  private _convertObject(data: I, arr: I[] = []): O {
+    const output: Partial<O> = {};
+    const keys = Object.keys(this._map) as Array<keyof O>;
+    for (const key of keys) {
+      const prop: IFunctionalMapping<I, O[typeof key]> | keyof I = this._map[key];
+      // cheating a bit on below typing but its pissing me off and runtime works fine
+      (output as any)[key] = typeof prop === "function" ? prop(data as I, arr as I[]) : data[prop];
+    }
+
+    // passthroughs
+    if(this._passthrough) {
+      const pkeys = Array.isArray(this._passthrough)
+        ? this._passthrough
+        : Object.keys(data);
+
+      for (const key of pkeys) {
+        (output as any)[key] = (data as any)[key];
       }
-      // camelCase
-      if (
-        this._config.camelize && 
-        this._config.camelize.indexOf(key) !== -1
-      ) {
-        output[this.camelize(key) as keyof T] = data[key];
+    }
+    // exclusions
+    if(Array.isArray(this._exclude)) {
+      const exclude = new Set(this._exclude);
+      const ekeys = Object.keys(data).filter(e => !exclude.has(e as any));
+
+      for (const key of ekeys) {
+        (output as any)[key] = (data as any)[key];
       }
-      // dash-erize
-      if (
-        this._config.dasherize &&
-        this._config.dasherize.indexOf(key) !== -1
-      ) {
-        output[this.dasherize(key) as keyof T] = data[key];
-      }      
-    });
+    }
 
-    // Process Callbacks
-    const keys = this._config.process
-      ? Object.keys(this._config.process)
-      : [];
-    const props = { ...data, ...output as IDictionary };
-    keys.forEach((key: keyof T) => {
-      const defaultValue = this._config.defaults ? this._config.defaults[key] : undefined;
-      output[key] = this._config.process[key](props, defaultValue);
-    });
-
-    // Passthrough
-    const passThrough = this._config.passThroughs || [];
-    passThrough.forEach((key: keyof T) => {
-      const defaultValue = this._config.defaults ? this._config.defaults[key] : undefined;
-      output[key] = data[key] || defaultValue;
-    });
-
-    return output as T;
+    return output as O;
   }
 
-  private dasherize(name: string): string {
-    return name
-      .split(/[_\s\.]/g)
-      .map(val => {
-        return (
-          val.charAt(0).toLowerCase() +
-          val.substr(1).replace(/([A-Z])/gm, '-$1').toLowerCase()
-        );
-      })
-      .join('-');
+  private _convertArray(data: I[]): O[] {
+    const output: O[] = [];
+    for (const datum of data) {
+      output.push(this._convertObject(datum));
+    }
+
+    return output;
   }
 
-  private camelize(name: string): string {
-    return name.split(/[_\s-\.]/gm).reduce((agg, val) => {
-      return agg !== ''
-        ? agg + val.charAt(0).toUpperCase() + val.substr(1)
-        : val.charAt(0).toLowerCase() + val.substr(1);
-    }, '');
-  }
+  /**
+   * Converts input data into an aggregate record
+   */
+  public aggregate(config: IMapperConfiguration<I, O>) {
+    if (this._map) {
+      const e = new Error(
+        'A TypedMapper object should NOT have a "map" and "aggregate" configuration and this object already has a "map" configuration!'
+      );
+      e.name = "TypedMapper::NotAllowed";
+      throw e;
+    }
 
-  private pascalize(name: string): string {
-    return name.split(/[_\s-\.]/gm).reduce((agg, val) => {
-      return agg + val.charAt(0).toUpperCase() + val.substr(1);
-    }, '');
+    this._aggregate = config;
+    return this;
   }
 }

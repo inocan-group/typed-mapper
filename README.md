@@ -2,16 +2,101 @@
 
 > transform from one data structure to another with the benefit of Typescript's typing
 
-## Usage
+## Install
 
-The most basic usage is:
-
-```typescript
-const inputData: IAbc = { /** */ };
-const outputData: IXyz = TypedMapper<IAbc, IXyz>.convert(inputData);
+```sh
+npm install typed-mapper
+# or
+yarn install typed-mapper
 ```
 
-This will attempt to move data from the `IAbc` interface to the `IXyz` interface. In the case where `IXyz` is a subset of `IAbc` then this will work "as is" but in most cases there will need to some data mapping logic.
+## Usage
+
+### Basics
+
+If you have a type `A` and want to map it to type `B`; you would do something like:
+
+```typescript
+export interface A {
+  firstName: string;
+  lastName: string;
+  nick: string;
+}
+
+export interface B {
+  fullName: string;
+  nickname: string;
+  country: string;
+}
+
+const data = {
+  firstName: "Bob",
+  lastName: "Marley",
+  nick: "papa wailer"
+};
+
+const converted = TypedMapper.map<A, B>({
+  fullName: i => `${i.firstName} ${i.lastName}`,
+  nickname: "nick",
+  country: () => "usa"
+}).convertObject(data);
+```
+
+What we see here are the use of two methods:
+
+1. `map()` - allows us to state the output structure and how it _maps_ data from the input
+2. `convertObject()` - applies the mapping to the supplied data
+
+We also see _mapping_ allowing us two distinct types of transformations:
+
+- **Name Mapping**: by stating an output properties value as a string you are telling it
+- **Function Mapping**: a value of a function in a mapper allows us to use programatic operation and in the example of `fullName` above we're taking advantage of the function being passed the input object to work off of. Of course if we just want to set a static value or don't need the input then we can just ignore the parameter passed in (see `country` as example of this).
+
+And of course with a library called "**Typed**Mapper" you will not be surprised to hear that this library is fully _typed_ and will ensure that both your input and output data structures are typed correctly.
+
+### List Processing
+
+The example above is very useful but often it would be even more useful if you could apply the same transformation rules to an array of data. This is easily done with nearly the same syntax:
+
+```typescript
+const data: A[] = [{...},{...}];
+const converted = TypedMapper.map<A, B>({
+  fullName: i => `${i.firstName} ${i.lastName}`,
+  nickname: "nick",
+  country: () => "usa"
+}).convertArray(data);
+```
+
+As you can see, so long as you pass in an array of data, **TypedMapper** will pass back an array of mapped data. We do change the call of `convertObject` to `convertArray` to ensure the type system is completely happy but otherwise precisely the same.
+
+Once you start dealing with lists, however, there are cases where your "function mappers" will want more context than _just_ the current record being converted but rather have access to the full array of inputs to build it's logic off. Here's a silly example:
+
+```typescript
+const data: A[] = [{...},{...}];
+const converted = TypedMapper.map<A, B>({
+  fullName: i => `${i.firstName} ${i.lastName}`,
+  firstNameBuddies: (i, list) => list.filter(l = l.firstName === i.firstName).length,
+  nickname: "nick",
+  country: () => "usa"
+}).convertArray(data);
+```
+
+### Passthroughs
+
+Another mapping pattern that is supported is the idea of "passthroughs". This term refers to the desire to pass input values directly through to output values. Here are some examples of how you might use this:
+
+```typescript
+// pass ALL properties from A to B
+const mapper = TypedMapper.passthrough<A, B>(true);
+// pass specific properties from A to B
+const mapper = TypedMapper.passthrough<A, B>(["foo", "bar"]);
+// pass ALL properties from A to B, except those stated
+const mapper = TypedMapper.exclude<A, B>(["foo", "bar"]);
+```
+
+This would, for each user, give a numeric count of how many other users share the same first name. Not super useful but hopefully you can think of better examples for your data.
+
+> Note: that this too will check your typing and reject invalid conversions at design time but there are some limits to the completeness of the check which I believe are true limitations of TypeScript atm. One suggestion, if you have a passthrough the changing the output type O to Partial<O> is likely going to be what you want.
 
 ### Global Naming Convention Changes
 
@@ -27,8 +112,8 @@ interface IOutput {
   userAge: number;
 }
 const inputData: IInput = { full_name: "Bob", user_age: 25 };
-const outputData = TypedMapper.create(IInput, IOutput)
-  .inputData(inputData)
+const outputData = TypedMapper<IInput, IOutput>
+  .input(inputData)
   .camelize()
   .convert();
 ```
@@ -46,13 +131,15 @@ In this case we've taken the input structure's properties and converted them all
 By default if you state nothing then all properties will be moved across from input to output. If you'd prefer only explicit mapping to be passed over you can achieve this with:
 
 ```typescript
-const outputData = TypedMapper.create<IInput, IOutput>(input).passthrough(false).map( ... ).convert();
+const outputData = TypedMapper<IInput, IOutput>
+  .input(input).passthrough(false).map( ... ).convert();
 ```
 
 Alternatively you can state a few property names which you will NOT being explicitly mapping but you would like to have passed through:
 
 ```typescript
-const outputData = TypedMapper.create<IInput, IOutput>(input)
+const outputData = TypedMapper<IInput, IOutput>
+  .input(input)
   .passthrough('foo', 'bar')
   .map( ... )
   .convert();
