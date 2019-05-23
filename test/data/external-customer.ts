@@ -1,0 +1,481 @@
+export default [
+  {
+    id: 2208554,
+    first_name: "JOHN",
+    middle_name: "L",
+    last_name: "SMITH",
+    nick_name: null,
+    email_address: null,
+    gender: "male",
+    birth_date: "1985-06-08",
+    active: 1,
+    total_points: 417,
+    preferred_contact: "text",
+    tax_exempt: 0,
+    primary_facility_id: null,
+    current_marijuana_provider: null,
+    date_provider_can_switch: null,
+    diagnosis: null,
+    physician_name: null,
+    physician_license: null,
+    physician_address: null,
+    total_orders: 10,
+    total_spent: "0.00",
+    order_count_week: 1,
+    order_count_month: 1,
+    order_count_90_days: 3,
+    favorite_flower_item_master_id: null,
+    favorite_edible_item_master_id: null,
+    favorite_concentrate_item_master_id: null,
+    favorite_topical_item_master_id: null,
+    favorite_flower_item_name: null,
+    favorite_edible_item_name: null,
+    favorite_concentrate_item_name: null,
+    favorite_topical_item_name: null,
+    created_at: "2018-11-12 23:12:57",
+    updated_at: "2019-04-09 18:49:40",
+    type: "medical",
+    addresses: [
+      {
+        id: 2402571,
+        organization_id: 779,
+        consumer_id: 2208554,
+        caregiver_id: null,
+        street_address_1: "125 S RICHARDS RD APT 1200",
+        street_address_2: null,
+        city: "CHANDLER",
+        province_code: "AZ",
+        postal_code: "852248108",
+        country_code: "unit",
+        primary: 1,
+        active: 1,
+        created_at: "2018-11-12 23:12:57",
+        updated_at: "2018-11-12 23:12:57",
+        deleted_at: null
+      },
+      {
+        id: 2402572,
+        organization_id: 779,
+        consumer_id: 2208554,
+        caregiver_id: null,
+        street_address_1: null,
+        street_address_2: null,
+        city: null,
+        province_code: null,
+        postal_code: null,
+        country_code: "unit",
+        primary: 0,
+        active: 1,
+        created_at: "2018-11-12 23:12:57",
+        updated_at: "2019-02-28 21:20:07",
+        deleted_at: null
+      }
+    ],
+    ids: [
+      {
+        id: 3175289,
+        organization_id: 779,
+        consumer_id: 2208554,
+        type: "med",
+        identification_number: "0377251QPHE766798651",
+        state: "",
+        active: 1,
+        file_id: 314175,
+        is_renewal: 0,
+        effective_at: null,
+        expired_at: "2019-10-28 00:00:00",
+        created_at: "2018-11-12 23:12:57",
+        updated_at: "2019-03-02 02:35:37",
+        deleted_at: null
+      }
+    ],
+    caregivers: [
+      {
+        id: 423180,
+        consumer_id: 2208554,
+        first_name: "",
+        middle_name: null,
+        last_name: "",
+        birth_date: null,
+        phone: null,
+        email: null,
+        state_integration_tracking_id: null,
+        medical_id: null,
+        created_at: "2018-11-12 23:12:57",
+        updated_at: "2018-11-12 23:12:57",
+        deleted_at: null,
+        addresses: [
+          {
+            id: 2402573,
+            organization_id: 779,
+            consumer_id: 2208554,
+            caregiver_id: 423180,
+            street_address_1: null,
+            street_address_2: null,
+            city: null,
+            province_code: null,
+            postal_code: null,
+            country_code: "unit",
+            primary: 0,
+            active: 1,
+            created_at: "2018-11-12 23:12:57",
+            updated_at: "2019-02-28 21:20:07",
+            deleted_at: null
+          }
+        ]
+      }
+    ],
+    phone_numbers: [
+      {
+        id: 1411073,
+        organization_id: 779,
+        consumer_id: 2208554,
+        type: "default",
+        number: "",
+        active: 1,
+        sms: 0,
+        created_at: "2018-11-12 23:12:57",
+        updated_at: "2018-11-12 23:12:57",
+        deleted_at: null
+      }
+    ],
+    groups: [
+      {
+        id: 973198,
+        organization_id: 779,
+        consumer_id: 2208554,
+        consumer_group_id: 1730,
+        created_at: "2018-12-08 17:05:51",
+        updated_at: "2018-12-08 17:05:51",
+        group: {
+          id: 1730,
+          organization_id: 779,
+          group_name: "Patient",
+          standard_discount_percent: "100.00",
+          active: 1,
+          is_rewards_program_group: 0,
+          min_visit_frequency: 0,
+          min_visit_frequency_days: 0,
+          min_accrued_points: 0,
+          min_total_spend: "1.00",
+          created_at: "2018-10-19 22:59:41",
+          updated_at: "2018-10-19 22:59:41",
+          deleted_at: null
+        }
+      }
+    ],
+    tags: [
+      {
+        id: 25518,
+        organization_id: 779,
+        tag_name: "Mesa",
+        created_at: "2018-11-15 16:34:57",
+        updated_at: "2018-11-15 16:34:57",
+        pivot: {
+          consumer_id: 2208554,
+          tag_id: 25518
+        }
+      }
+    ]
+  },
+  {
+    id: 2205729,
+    first_name: "ROGER",
+    middle_name: null,
+    last_name: "BOSTER",
+    nick_name: null,
+    email_address: null,
+    gender: "male",
+    birth_date: "1965-09-18",
+    active: 1,
+    total_points: 0,
+    preferred_contact: null,
+    tax_exempt: 0,
+    primary_facility_id: null,
+    current_marijuana_provider: null,
+    date_provider_can_switch: null,
+    diagnosis: null,
+    physician_name: null,
+    physician_license: null,
+    physician_address: null,
+    total_orders: 0,
+    total_spent: "0.00",
+    order_count_week: 0,
+    order_count_month: 0,
+    order_count_90_days: 0,
+    favorite_flower_item_master_id: null,
+    favorite_edible_item_master_id: null,
+    favorite_concentrate_item_master_id: null,
+    favorite_topical_item_master_id: null,
+    favorite_flower_item_name: null,
+    favorite_edible_item_name: null,
+    favorite_concentrate_item_name: null,
+    favorite_topical_item_name: null,
+    created_at: "2018-11-13 01:04:23",
+    updated_at: "2018-11-26 02:45:55",
+    type: "medical",
+    addresses: [
+      {
+        id: 2403114,
+        organization_id: 779,
+        consumer_id: 2205729,
+        caregiver_id: null,
+        street_address_1: null,
+        street_address_2: null,
+        city: null,
+        province_code: null,
+        postal_code: null,
+        country_code: null,
+        primary: 1,
+        active: 1,
+        created_at: "2018-11-13 01:04:23",
+        updated_at: "2018-11-13 01:04:23",
+        deleted_at: null
+      }
+    ],
+    ids: [
+      {
+        id: 3175631,
+        organization_id: 779,
+        consumer_id: 2205729,
+        type: "med",
+        identification_number: "0353503QPGK110991001",
+        state: "",
+        active: 1,
+        file_id: 213416,
+        is_renewal: 0,
+        effective_at: null,
+        expired_at: "2019-07-10 00:00:00",
+        created_at: "2018-11-13 01:04:23",
+        updated_at: "2018-11-26 02:45:55",
+        deleted_at: null
+      }
+    ],
+    caregivers: [
+      {
+        id: 423423,
+        consumer_id: 2205729,
+        first_name: "",
+        middle_name: null,
+        last_name: "",
+        birth_date: null,
+        phone: null,
+        email: null,
+        state_integration_tracking_id: null,
+        medical_id: null,
+        created_at: "2018-11-13 01:04:23",
+        updated_at: "2018-11-13 01:04:23",
+        deleted_at: null,
+        addresses: [
+          {
+            id: 2403115,
+            organization_id: 779,
+            consumer_id: 2205729,
+            caregiver_id: 423423,
+            street_address_1: null,
+            street_address_2: null,
+            city: null,
+            province_code: null,
+            postal_code: null,
+            country_code: null,
+            primary: 0,
+            active: 1,
+            created_at: "2018-11-13 01:04:23",
+            updated_at: "2018-11-13 01:04:23",
+            deleted_at: null
+          }
+        ]
+      }
+    ],
+    phone_numbers: [
+      {
+        id: 1411302,
+        organization_id: 779,
+        consumer_id: 2205729,
+        type: "default",
+        number: "",
+        active: 1,
+        sms: 0,
+        created_at: "2018-11-13 01:04:23",
+        updated_at: "2018-11-13 01:04:23",
+        deleted_at: null
+      }
+    ],
+    groups: [
+      {
+        id: 953032,
+        organization_id: 779,
+        consumer_id: 2205729,
+        consumer_group_id: 1730,
+        created_at: "2018-11-26 02:45:55",
+        updated_at: "2018-11-26 02:45:55",
+        group: {
+          id: 1730,
+          organization_id: 779,
+          group_name: "Patient",
+          standard_discount_percent: "100.00",
+          active: 1,
+          is_rewards_program_group: 0,
+          min_visit_frequency: 0,
+          min_visit_frequency_days: 0,
+          min_accrued_points: 0,
+          min_total_spend: "1.00",
+          created_at: "2018-10-19 22:59:41",
+          updated_at: "2018-10-19 22:59:41",
+          deleted_at: null
+        }
+      }
+    ],
+    tags: []
+  },
+  {
+    id: 2208796,
+    first_name: "JESUS",
+    middle_name: null,
+    last_name: "JIMENEZ",
+    nick_name: null,
+    email_address: null,
+    gender: "male",
+    birth_date: "1996-05-10",
+    active: 1,
+    total_points: 330,
+    preferred_contact: null,
+    tax_exempt: 0,
+    primary_facility_id: null,
+    current_marijuana_provider: null,
+    date_provider_can_switch: null,
+    diagnosis: null,
+    physician_name: null,
+    physician_license: null,
+    physician_address: null,
+    total_orders: 2,
+    total_spent: "172.90",
+    order_count_week: 1,
+    order_count_month: 1,
+    order_count_90_days: 2,
+    favorite_flower_item_master_id: 1690360,
+    favorite_edible_item_master_id: 1300687,
+    favorite_concentrate_item_master_id: null,
+    favorite_topical_item_master_id: null,
+    favorite_flower_item_name: "Pre-Roll - Sour Tangerine (SH)",
+    favorite_edible_item_name: "EDIBLES - A&A - Cookie - Chocolate Chip (H) (300mg)",
+    favorite_concentrate_item_name: null,
+    favorite_topical_item_name: null,
+    created_at: "2018-11-13 01:49:28",
+    updated_at: "2019-03-09 19:30:11",
+    type: "medical",
+    addresses: [
+      {
+        id: 2403321,
+        organization_id: 779,
+        consumer_id: 2208796,
+        caregiver_id: null,
+        street_address_1: null,
+        street_address_2: null,
+        city: null,
+        province_code: null,
+        postal_code: null,
+        country_code: null,
+        primary: 1,
+        active: 1,
+        created_at: "2018-11-13 01:49:28",
+        updated_at: "2018-11-13 01:49:28",
+        deleted_at: null
+      }
+    ],
+    ids: [
+      {
+        id: 3175779,
+        organization_id: 779,
+        consumer_id: 2208796,
+        type: "med",
+        identification_number: "0370036QPOF090153001",
+        state: "",
+        active: 1,
+        file_id: 213418,
+        is_renewal: 0,
+        effective_at: null,
+        expired_at: "2019-09-16 00:00:00",
+        created_at: "2018-11-13 01:49:28",
+        updated_at: "2018-11-26 02:46:53",
+        deleted_at: null
+      }
+    ],
+    caregivers: [
+      {
+        id: 423526,
+        consumer_id: 2208796,
+        first_name: "",
+        middle_name: null,
+        last_name: "",
+        birth_date: null,
+        phone: null,
+        email: null,
+        state_integration_tracking_id: null,
+        medical_id: null,
+        created_at: "2018-11-13 01:49:28",
+        updated_at: "2018-11-13 01:49:28",
+        deleted_at: null,
+        addresses: [
+          {
+            id: 2403322,
+            organization_id: 779,
+            consumer_id: 2208796,
+            caregiver_id: 423526,
+            street_address_1: null,
+            street_address_2: null,
+            city: null,
+            province_code: null,
+            postal_code: null,
+            country_code: null,
+            primary: 0,
+            active: 1,
+            created_at: "2018-11-13 01:49:28",
+            updated_at: "2018-11-13 01:49:28",
+            deleted_at: null
+          }
+        ]
+      }
+    ],
+    phone_numbers: [
+      {
+        id: 1411400,
+        organization_id: 779,
+        consumer_id: 2208796,
+        type: "default",
+        number: "",
+        active: 1,
+        sms: 0,
+        created_at: "2018-11-13 01:49:28",
+        updated_at: "2018-11-13 01:49:28",
+        deleted_at: null
+      }
+    ],
+    groups: [
+      {
+        id: 953033,
+        organization_id: 779,
+        consumer_id: 2208796,
+        consumer_group_id: 1730,
+        created_at: "2018-11-26 02:46:53",
+        updated_at: "2018-11-26 02:46:53",
+        group: {
+          id: 1730,
+          organization_id: 779,
+          group_name: "Patient",
+          standard_discount_percent: "100.00",
+          active: 1,
+          is_rewards_program_group: 0,
+          min_visit_frequency: 0,
+          min_visit_frequency_days: 0,
+          min_accrued_points: 0,
+          min_total_spend: "1.00",
+          created_at: "2018-10-19 22:59:41",
+          updated_at: "2018-10-19 22:59:41",
+          deleted_at: null
+        }
+      }
+    ],
+    tags: []
+  }
+];

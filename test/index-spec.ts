@@ -1,4 +1,4 @@
-import TypedMapper, { IMapConfig } from "../src/index";
+import TypedMapper from "../src/index";
 import * as chai from "chai";
 import { datetime } from "common-types";
 
@@ -72,8 +72,10 @@ describe("Mapping works", () => {
   it("Mapping on an array of inputs converts each element", () => {
     const mapper = TypedMapper.map<IPersonDetailed, IPersonSimple>({
       name: i => `${i.firstName} ${i.lastName}`,
-      nick: 'nickName'
+      nick: "nickName",
     });
+
+
     mapper.input([
       {
         firstName: "Bob",
@@ -93,12 +95,12 @@ describe("Mapping works", () => {
     expect(output.map(i => i.name)).to.include("Bob Marley");
   });
 
-  it('passthrough array with a simple map() works', async () => {
-    const mapper = TypedMapper.passthrough<A,Partial<B>>(['a','b']).map({
-      d: (i) => `${i.a} foobar`
+  it("passthrough array with a simple map() works", async () => {
+    const mapper = TypedMapper.passthrough<A, Partial<B>>(["a", "b"]).map({
+      d: i => `${i.a} foobar`
     });
     const data = {
-      a: 'hey',
+      a: "hey",
       b: 12,
       c: false
     };
@@ -110,12 +112,12 @@ describe("Mapping works", () => {
     expect(result.d).to.equal("hey foobar");
   });
 
-  it('passthrough set as TRUE with a simple map() works', async () => {
-    const mapper = TypedMapper.passthrough<A,Partial<B>>(true).map({
-      d: (i) => `${i.a} foobar`
+  it("passthrough set as TRUE with a simple map() works", async () => {
+    const mapper = TypedMapper.passthrough<A, Partial<B>>(true).map({
+      d: i => `${i.a} foobar`
     });
     const data = {
-      a: 'hey',
+      a: "hey",
       b: 12,
       c: false
     };
@@ -127,12 +129,12 @@ describe("Mapping works", () => {
     expect(result.d).to.equal("hey foobar");
   });
 
-  it('exclude array with a simple map() works', async () => {
-    const mapper = TypedMapper.exclude<A,Partial<B>>(['b']).map({
-      d: (i) => `${i.a} foobar`
+  it("exclude array with a simple map() works", async () => {
+    const mapper = TypedMapper.exclude<A, Partial<B>>(["b"]).map({
+      d: i => `${i.a} foobar`
     });
     const data = {
-      a: 'hey',
+      a: "hey",
       b: 12,
       c: false
     };
@@ -143,7 +145,6 @@ describe("Mapping works", () => {
     expect(result.c).to.equal(data.c);
     expect(result.d).to.equal("hey foobar");
   });
-
 
   // it.skip("dasherize props works", () => {
   //   const config = {
