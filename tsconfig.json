@@ -1,22 +1,14 @@
 {
   "compilerOptions": {
-    "declaration": true,
+    "noEmit": true,
+    "declaration": false,
     "module": "commonjs",
-    "target": "ES6", 
+    "target": "es2015",
     "moduleResolution": "node",
     "sourceMap": true,
     "noImplicitAny": true,
-    "outDir": "./lib",
-    "removeComments": true,
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
+    "strict": true,
+    "removeComments": false
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*-spec.ts"
-  ]
+  "include": ["src", "test"]
 }
