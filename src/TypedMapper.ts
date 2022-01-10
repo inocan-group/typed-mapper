@@ -5,7 +5,7 @@ import {
   IFunctionalMapping,
 } from "./index";
 
-export default class TypedMapper<I = any, O = any> {
+export class TypedMapper<I = any, O = any> {
   private _map?: IMapperConfiguration<I, O>;
   private _aggregate?: IMapperConfiguration<I, O>;
   private _data?: I | I[];
