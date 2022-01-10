@@ -2,10 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "esnext",
-    "target": "esnext",
-    "declaration": true,
-    "outDir": "dist/cjs",
-    "noEmit": false
+    "noEmit": false,
+    "outDir": "dist/types"
   },
   "include": ["src"]
 }

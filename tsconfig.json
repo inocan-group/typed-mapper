@@ -3,9 +3,9 @@
     "noEmit": true,
     "declaration": false,
     "module": "commonjs",
-    "target": "es2015",
+    "target": "esnext",
     "moduleResolution": "node",
-    "sourceMap": true,
+    "sourceMap": false,
     "noImplicitAny": true,
     "strict": true,
     "removeComments": false
